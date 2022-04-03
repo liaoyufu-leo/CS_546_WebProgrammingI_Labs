@@ -8,24 +8,24 @@ router.post("/", async (req, res) => {
 
     try {
         if (!searchTerm) throw "please input";
-        searchTerm=searchTerm.trim();
+        searchTerm = searchTerm.trim();
         if (!searchTerm) throw "please not input all space";
     } catch (error) {
-        res.render("search/found", { "haserror": true , "error" : error });
+        res.render("search/found", { "haserror": true, "error": error });
         res.status(400);
-        return ;
+        return;
     }
 
     try {
         const data = await connection.getData("nameStartsWith", searchTerm);
 
         const posts = data.data.results.slice(0, 20);
-        
-        if(posts.length == 0 ) throw "character name not find.";
+
+        if (posts.length == 0) throw "character name not find.";
 
         res.render("search/found", { "title": "Characters Found", "searchTerm": searchTerm, "posts": posts });
     } catch (error) {
-        res.render("search/found", { "haserror": true , "error" : error });
+        res.render("search/found", { "haserror": true, "error": error });
         res.status(404);
     }
 
